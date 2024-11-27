@@ -6,3 +6,6 @@ così finisce dentro .gitignore
 daje marti
 
 
+Ciao Rena, 
+non so come si faccia
+

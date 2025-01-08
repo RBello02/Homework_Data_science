@@ -1,0 +1,18 @@
+Migliori parametri per Lasso: {'alpha': 0.01, 'max_iter': 5000}
+Miglior MSE (cross-val): 116.7326
+RMSE sui dati di test: 10.0879
+R^2 sui dati di test: 0.3856
+
+Eseguendo GridSearchCV per GradientBoostingRegressor...
+Migliori parametri per GradientBoostingRegressor: {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 500, 'subsample': 0.7}
+Miglior MSE (cross-val): 110.5951
+RMSE sui dati di test: 9.7517
+R^2 sui dati di test: 0.4259
+
+Eseguendo GridSearchCV per MLPRegressor...
+Migliori parametri per MLPRegressor: {'activation': 'relu', 'alpha': 0.001, 'hidden_layer_sizes': (100,), 'learning_rate': 'invscaling', 'max_iter': 1000, 'solver': 'adam'}
+Miglior MSE (cross-val): 130.4405
+RMSE sui dati di test: 13.1264
+R^2 sui dati di test: -0.0402
+
+Eseguendo GridSearchCV per SVR...

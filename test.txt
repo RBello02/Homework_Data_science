@@ -16,3 +16,6 @@ RMSE sui dati di test: 13.1264
 R^2 sui dati di test: -0.0402
 
 Eseguendo GridSearchCV per SVR...
+
+
+e

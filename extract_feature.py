@@ -1,8 +1,6 @@
 # it takes the feature from the waw file and join it whit the cvc file that we have
 
-# come useful libraries for deature extraction
-
-
+# come useful libraries for deature extractionP
 import numpy as np
 from collections import Counter
 from sklearn.preprocessing import OneHotEncoder
@@ -11,12 +9,7 @@ import librosa
 
 
 
-filename = 'datasets/development.csv'     # you can change the name of the file if you want to use another dataset
-
 # function which reads a audio file and extract some useful spectral features 
-
-# function which reads a audio file and extract some useful spectral features 
-
 def audio_feature_extraction(dataset):
     
     mfcc_list = []
@@ -60,47 +53,77 @@ def audio_feature_extraction(dataset):
 
     return new_dataset
 
-# Loading the dataset using Pandas dataframe
-data_dev = pd.read_csv(filename)
-data_dev = data_dev.drop(columns = ['Id'])
 
-labels = list(data_dev.columns.values)
-labels.remove('gender')
-labels.remove('ethnicity')
-
-# First, let's convert tempo in a float data type
-data_dev['tempo'] = data_dev['tempo'].str.replace('[','')
-data_dev['tempo'] = data_dev['tempo'].str.replace(']','').astype(float)
+def main():
+    
+    ## LOADING THE DEVELOPMENT DATASET
+    filename_dev = 'datasets/development.csv'     
+    
+    # Loading the dataset using Pandas dataframe
+    data_dev = pd.read_csv(filename_dev)
 
 
+    # First, let's convert tempo in a float data type
+    data_dev['tempo'] = data_dev['tempo'].str.replace('[','')
+    data_dev['tempo'] = data_dev['tempo'].str.replace(']','').astype(float)
 
-# One-hot encoding for attribute gender and ethnicity
+    # One-hot encoding for attribute gender and ethnicity
+    # Crea il OneHotEncoder per "ethnicity"
+    all_categories_etn = sorted(set(data_dev['ethnicity']))
+    encoder_etn = OneHotEncoder(categories=[all_categories_etn], handle_unknown='ignore')
+    etn_encoded = encoder_etn.fit_transform(data_dev[['ethnicity']]).toarray()
+    etn_encoded_df = pd.DataFrame(etn_encoded, columns=['ethnicity_' + cat for cat in all_categories_etn])
 
-counts = dict(Counter(data_dev.ethnicity))
-print('Numero di etnie', len(counts))
-# Crea il OneHotEncoder per "ethnicity"
-all_categories_etn = sorted(set(data_dev['ethnicity']))
-encoder_etn = OneHotEncoder(categories=[all_categories_etn], handle_unknown='ignore')
-etn_encoded = encoder_etn.fit_transform(data_dev[['ethnicity']]).toarray()
-etn_encoded_df = pd.DataFrame(etn_encoded, columns=['ethnicity_' + cat for cat in all_categories_etn])
+    # Crea il OneHotEncoder per "gender"
+    all_categories_gender = sorted(set(data_dev['gender']))
+    encoder_gender = OneHotEncoder(categories=[all_categories_gender], handle_unknown='ignore')
+    gender_encoded = encoder_gender.fit_transform(data_dev[['gender']]).toarray()
+    gender_encoded_df = pd.DataFrame(gender_encoded, columns=['gender_' + cat for cat in all_categories_gender])
 
-# Crea il OneHotEncoder per "gender"
-all_categories_gender = sorted(set(data_dev['gender']))
-encoder_gender = OneHotEncoder(categories=[all_categories_gender], handle_unknown='ignore')
-gender_encoded = encoder_gender.fit_transform(data_dev[['gender']]).toarray()
-gender_encoded_df = pd.DataFrame(gender_encoded, columns=['gender_' + cat for cat in all_categories_gender])
-
-# Riuniamo il dataset
-data_dev = pd.concat([data_dev.reset_index(drop=True).drop(columns=['ethnicity']), etn_encoded_df], axis=1)
-data_dev = pd.concat([data_dev.reset_index(drop=True).drop(columns=['gender']), gender_encoded_df], axis=1)
-
-
-# join with the audio features
-
-data_dev = audio_feature_extraction(data_dev)
+    # Riuniamo il dataset
+    data_dev = pd.concat([data_dev.reset_index(drop=True).drop(columns=['ethnicity']), etn_encoded_df], axis=1)
+    data_dev = pd.concat([data_dev.reset_index(drop=True).drop(columns=['gender']), gender_encoded_df], axis=1)
 
 
-# return a cvs file with the new features
+    # join with the audio features
+    data_dev = audio_feature_extraction(data_dev)
 
-data_dev.to_csv('datasets/development_features.csv', index = False)
-print('File saved as development_features.csv')
+    # return a cvs file with the new features
+    data_dev.to_csv('datasets/development_features.csv', index = False)
+    print('File saved as development_features.csv')
+    
+    
+    
+    
+    ## LOADING THE EVALUATION DATSET
+    filename = 'datasets/evaluation.csv'     
+    
+    # Loading the dataset using Pandas dataframe
+    data_eval = pd.read_csv(filename)
+
+    data_eval['tempo'] = data_eval['tempo'].str.replace('[','')
+    data_eval['tempo'] = data_eval['tempo'].str.replace(']','').astype(float)
+
+    # encoding gender and etnhicity with the encoder preoviously created
+    # Encoding per "ethnicity"
+    etn_encoded = encoder_etn.transform(data_eval[['ethnicity']]).toarray()
+    etn_encoded_df = pd.DataFrame(etn_encoded, columns=['ethnicity_' + cat for cat in all_categories_etn])
+
+    # Encoding per "gender"
+    gender_encoded = encoder_gender.transform(data_eval[['gender']]).toarray()
+    gender_encoded_df = pd.DataFrame(gender_encoded, columns=['gender_' + cat for cat in all_categories_gender])
+
+    # Riuniamo il dataset
+    data_eval = pd.concat([data_eval.reset_index(drop=True).drop(columns=['ethnicity']), etn_encoded_df], axis=1)
+    data_eval = pd.concat([data_eval.reset_index(drop=True).drop(columns=['gender']), gender_encoded_df], axis=1)
+
+    # Extracting features from the audio files
+    data_eval = audio_feature_extraction(data_eval)
+
+    # return a cvs file with the new features
+    data_eval.to_csv('datasets/evaluation_features.csv', index = False)
+    print('File saved as evaluation_features.csv')
+
+
+if __name__ == '__main__':
+    main()

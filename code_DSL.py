@@ -22,6 +22,17 @@ from sklearn.pipeline import make_pipeline, Pipeline
 
 
 def main():
+    
+    # Defyning the model we want to test
+    model_name = 'RandomForestRegressor'
+    model_details = {'model': RandomForestRegressor(),
+        'params': {
+            'n_estimators': [50],
+            'max_depth': [None],
+            'min_samples_split': [2],
+            }
+        }
+    
     # Loading datasets
     data_dev = pd.read_csv('datasets/development_features.csv')
     data_eval = pd.read_csv('datasets/evaluation_features.csv')
@@ -45,6 +56,8 @@ def main():
 
     best_numfeat = 95
     best_score = 50
+    
+    print(f'Eseguendo RFE per {model_name}')
 
     # # find the best features
     # for numfeat in range(85, len(Xdata_dev.columns), 5):
@@ -70,7 +83,7 @@ def main():
 
     # Determining the MASK
     model = RandomForestRegressor(max_depth= 20, n_estimators= 200)
-    rfe = RFE(model, n_features_to_select= best_numfeat, verbose=1, step=5)  
+    rfe = RFE(model, n_features_to_select= 211, verbose=1, step=5)  
     rfe.fit(X_train, y_train)
 
     mask_RF = rfe.support_
@@ -88,22 +101,8 @@ def main():
     print(f'numfeat = {best_numfeat} , RMSE = {score} ')
     
     
-    # TUNING PARAMS
-    models_and_params = {
-        'RandomForestRegressor': {
-        'model': RandomForestRegressor(),
-        'params': {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [None, 10, 20],
-            'min_samples_split': [2, 5, 10],
-            }
-        },
-    }
-    
+    # TUNING PARAMS    
     results = {}
-    
-    model_name = models_and_params.keys()[0]
-    model_details = models_and_params.values[0]
     
     print(f"\nEseguendo GridSearchCV per {model_name}...")
     

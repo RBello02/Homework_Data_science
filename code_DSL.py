@@ -71,6 +71,7 @@ def main():
     # Determining the MASK
     model = RandomForestRegressor(max_depth= 20, n_estimators= 200)
     rfe = RFE(model, n_features_to_select= best_numfeat, verbose=1, step=5)  
+    rfe.fit(X_train, y_train)
 
     mask_RF = rfe.support_
     features_used_RF = Xdata_dev.columns[mask_RF].to_list()

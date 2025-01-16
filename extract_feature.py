@@ -30,17 +30,15 @@ def audio_feature_extraction(dataset):
         # devide the spettrogram in 10 parts
         n = 10
         m = log_spectrogram.shape[1] // n
-        means = []
-        variances = []
+        
 
         for i in range(n):
             part = log_spectrogram[:, i*m:(i+1)*m]
-            means.append(np.mean(part))
-            variances.append(np.var(part))
-
-        # add the mean and the variance to the dataset
-        dataset.loc[dataset['path'] == file_path, 'mean_spectrogram'] = np.mean(means)
-        dataset.loc[dataset['path'] == file_path, 'var_spectrogram'] = np.mean(variances)
+            mean = np.mean(part)
+            variance = np.var(part)
+            dataset.loc[dataset['path'] == file_path, f'mean_spectrogram_{i+1}'] = mean
+            dataset.loc[dataset['path'] == file_path, f'var_spectrogram_{i+1}'] = variance
+            
         
         # Extracting MFCC coefficients
         mfcc = librosa.feature.mfcc(y= audio_time_series , sr= sampling_rate, n_mfcc= num_coeff_mfcc)  

@@ -19,3 +19,40 @@ Eseguendo GridSearchCV per SVR...
 
 
 e
+
+
+
+<Eseguendo RFE per RandomForestRegressor ... 
+numfeat = 80 , RMSE = 9.47223208545177 
+numfeat = 90 , RMSE = 9.343765204375568 
+numfeat = 100 , RMSE = 9.461573275826572 
+numfeat = 110 , RMSE = 9.418711716036904 
+numfeat = 120 , RMSE = 9.443765131103984 
+numfeat = 130 , RMSE = 9.423970677133928 
+numfeat = 140 , RMSE = 9.381164583503214 
+numfeat = 150 , RMSE = 9.45157004369378 
+numfeat = 160 , RMSE = 9.366734999723974 
+numfeat = 170 , RMSE = 9.358395570232714 
+numfeat = 180 , RMSE = 9.476406626703954 
+numfeat = 190 , RMSE = 9.402804367786633 
+numfeat = 200 , RMSE = 9.360819887058396 
+numfeat = 210 , RMSE = 9.454281917906055 
+
+Eseguendo GridSearchCV per RandomForestRegressor...
+Migliori parametri per RandomForestRegressor: {'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100}
+Miglior MSE (cross-val): 110.2062
+RMSE sui dati di test: 9.3970
+R^2 sui dati di test: 0.4669
+Facendo predizione sull'evaluation set ...
+RMSE leaderboard = 10.157
+
+
+Eseguendo RFE per Ridge ... 
+The best score is obtained for numfeat = 49 and its value is 9.545553045350122
+Eseguendo GridSearchCV per Ridge...
+Migliori parametri per Ridge: {'alpha': 10, 'fit_intercept': True, 'max_iter': 1000, 'random_state': 42, 'solver': 'sparse_cg'}
+Miglior MSE (cross-val): 108.8353
+RMSE sui dati di test: 9.5585
+R^2 sui dati di test: 0.4484
+Facendo predizione sull'evaluation set ...
+RMSE leaderboard = 9.912

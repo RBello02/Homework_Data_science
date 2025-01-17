@@ -28,7 +28,7 @@ def audio_feature_extraction(dataset):
         # deviding the spettrogram in 10 parts e take the mean of each part and the variance
 
         # devide the spettrogram in 10 parts
-        n = 10
+        n = 20
         m = log_spectrogram.shape[1] // n
         
 
@@ -87,7 +87,7 @@ def main():
     data_dev = audio_feature_extraction(data_dev)
 
     # return a cvs file with the new features
-    data_dev.to_csv('datasets/development_features.csv', index = False)
+    data_dev.to_csv('datasets/development_features_20.csv', index = False)
     print('File saved as development_features.csv')
     
     
@@ -119,7 +119,7 @@ def main():
     data_eval = audio_feature_extraction(data_eval)
 
     # return a cvs file with the new features
-    data_eval.to_csv('datasets/evaluation_features.csv', index = False)
+    data_eval.to_csv('datasets/evaluation_features_20.csv', index = False)
     print('File saved as evaluation_features.csv')
 
 

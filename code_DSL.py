@@ -24,13 +24,16 @@ from sklearn.pipeline import make_pipeline, Pipeline
 def main():
     
     # Defyning the model we want to test
-    model_name = 'RandomForestRegressor'
-    model_details = {'model': RandomForestRegressor(),
+    model0 = Ridge()
+    model_name = 'Ridge'
+    model_details = {'model': Ridge(),
         'params': {
-            'n_estimators': [50],
-            'max_depth': [None],
-            'min_samples_split': [2],
-            }
+            'alpha': [0.1, 1, 10, 100],  # Valori di regolarizzazione
+            'solver': ['auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg'],
+            'fit_intercept': [True,False],
+            'max_iter': [1000],
+            'random_state': [42]
+        }
         }
     
     # Loading datasets
@@ -41,49 +44,42 @@ def main():
     ydata_dev = data_dev['age']
     Xdata_eval = data_eval.drop(columns=['path', 'Id', 'num_words'])
 
-    # Standardize the data
+    # Dividing the dataset into development and validation and standardizing
+    X_train, X_validation, y_train, y_validation = train_test_split(Xdata_dev, ydata_dev, test_size=0.2, random_state=42)
     scaler = StandardScaler()
-    scaler.fit(Xdata_dev)
-    Xdata_dev_scaled = scaler.transform(Xdata_dev)
-    Xdata_eval_scaled = scaler.transform(Xdata_eval)
+    X_train = scaler.fit_transform(X_train)
+    X_validation = scaler.transform(X_validation)
     
-    # Dividing the dataset into development and validation
-    X_train, X_validation, y_train, y_validation = train_test_split(Xdata_dev_scaled, ydata_dev, test_size=0.2, random_state=42)
-    
-    
-    # Provo a rifare tutto con il Random Forest Regressor
-    model = RandomForestRegressor(max_depth= 20, n_estimators= 200)
 
     best_numfeat = 95
     best_score = 50
     
-    print(f'Eseguendo RFE per {model_name}')
+    print(f'Eseguendo RFE per {model_name} ... ')
 
-    # # find the best features
-    # for numfeat in range(85, len(Xdata_dev.columns), 5):
-    #     rfe = RFE(model, n_features_to_select= numfeat)  
-    #     rfe.fit(X_train, y_train)
+    # find the best features
+    for numfeat in range(1, len(Xdata_dev.columns), 2):
+        rfe = RFE(model0, n_features_to_select= numfeat)   
+        rfe.fit(X_train, y_train)
         
-    #     X_train_selected_forest = rfe.transform(X_train)
-    #     X_test_selected_forest = rfe.transform(X_validation)
+        X_train_selected_forest = rfe.transform(X_train)
+        X_test_selected_forest = rfe.transform(X_validation)
 
-    #     # Fit the model
-    #     model.fit(X_train_selected_forest, y_train)
+        # Fit the model
+        model0.fit(X_train_selected_forest, y_train)
 
-    #     # Evaluate the model
-    #     score = root_mean_squared_error(y_validation, model.predict(X_test_selected_forest))
-    #     print(f'numfeat = {numfeat} , RMSE = {score} ')
+        # Evaluate the model
+        score = root_mean_squared_error(y_validation, model0.predict(X_test_selected_forest))
+        print(f'numfeat = {numfeat} , RMSE = {score} ')
         
-    #     if score < best_score:
-    #         best_score = score
-    #         best_numfeat = numfeat
+        if score < best_score:
+            best_score = score
+            best_numfeat = numfeat
             
-    # print(f'The best score is obtained for numfeat = {best_numfeat} and its value is {best_score}')  
-
+    print(f'The best score is obtained for numfeat = {best_numfeat} and its value is {best_score}')  
+ 
 
     # Determining the MASK
-    model = RandomForestRegressor(max_depth= 20, n_estimators= 200)
-    rfe = RFE(model, n_features_to_select= 211, verbose=1, step=5)  
+    rfe = RFE(model0, n_features_to_select= best_numfeat, verbose=1)
     rfe.fit(X_train, y_train)
 
     mask_RF = rfe.support_
@@ -94,10 +90,10 @@ def main():
     X_test_selected_forest = rfe.transform(X_validation)
     
     # Fit the model
-    model.fit(X_train_selected_forest, y_train)
+    model0.fit(X_train_selected_forest, y_train)
 
     # Evaluate the model
-    score = root_mean_squared_error(y_validation, model.predict(X_test_selected_forest))
+    score = root_mean_squared_error(y_validation, model0.predict(X_test_selected_forest))
     print(f'numfeat = {best_numfeat} , RMSE = {score} ')
     
     
@@ -138,6 +134,14 @@ def main():
 
 
     # PREDICTION
+    
+    # Standardize the data
+    scaler = StandardScaler()
+    scaler.fit(Xdata_dev)
+    Xdata_dev_scaled = scaler.transform(Xdata_dev)
+    Xdata_eval_scaled = scaler.transform(Xdata_eval)
+    
+    print('Facendo predizione sull\'evaluation set ... ')
     model_pred = grid_search.best_estimator_
     Xdata_dev_masked = Xdata_dev_scaled[:, mask_RF]
     X_data_eval_masked = Xdata_eval_scaled[:, mask_RF]

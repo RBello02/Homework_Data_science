@@ -56,3 +56,14 @@ RMSE sui dati di test: 9.5585
 R^2 sui dati di test: 0.4484
 Facendo predizione sull'evaluation set ...
 RMSE leaderboard = 9.912
+
+
+Eseguendo RFE per ElasticNet ... 
+The best score is obtained for numfeat = 37 and its value is 10.328847861615376
+Eseguendo GridSearchCV per ElasticNet...
+Migliori parametri per ElasticNet: {'alpha': 0.01, 'fit_intercept': True, 'l1_ratio': 0.7, 'max_iter': 1000, 'selection': 'cyclic'}
+Miglior MSE (cross-val): 110.3163
+RMSE sui dati di test: 9.7621
+R^2 sui dati di test: 0.4247
+Facendo predizione sull'evaluation set ...
+RMSE leaderboard = 9.910

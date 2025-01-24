@@ -1,46 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Based on IEEE the conference template available                     %
+% at https://www.ieee.org/conferences/publishing/templates.html       %
+% Adapted for the Data Science Lab course at Politecnico di Torino    %
+% by Giuseppe Attanasio, Flavio Giobergia                             %
+% 2020, DataBase and Data Mining Group                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \documentclass[conference]{IEEEtran}
-
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
 \usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{hyperref}
-\usepackage{caption}
-\usepackage{subcaption}
+\usepackage{textcomp}
+\usepackage{xcolor}
 
-\title{Estimating the age of people from a vocal recording}
-\author{
-    \IEEEauthorblockN{Bello Renato, Chiodo Martina}
-    \IEEEauthorblockA{
-        Politecnico di Torino \\
-        ID Studente: s341965 \\
-        s341965@studenti.polito.it
-    }
-}
 
 \begin{document}
+
+\title{Extimating the age of people from vocal recordings}
+
+\author{\IEEEauthorblockN{ Bello Renato}
+\IEEEauthorblockA{\textit{Politecnico di Torino} \\
+Student id: s341965 \\
+s341965@studenti.polito.it}
+\and
+\IEEEauthorblockN{Chiodo Martina}
+\IEEEauthorblockA{\textit{Politecnico di Torino} \\
+Student id: s343310 \\
+s343310@studenti.polito.it}
+}
+
 \maketitle
 
 \begin{abstract}
-In questo report introduciamo un approccio per risolvere il problema di classificazione del dataset di cifre parlate. ...
+The abstract goes here. Keep it short (approx. 3-4 sentences)
 \end{abstract}
 
-\section{Introduzione}
-\input{chap/introduzione.tex}
+\section{Problem overview}
+% Here you should describe your problem
+\input{chap/prob_overview.tex}
 
-\section{Approccio Proposto}
-\subsection{Preprocessing dei Dati}
-\input{chap/preprocessing.tex}
+\section{Proposed approach}
+% In this section, you will present your solution. Please fill in accordingly.
+\input{chap/proposed_approach.tex}
 
-\subsection{Selezione del Modello}
-\input{chap/sceltamodello.tex}
+You can use citations as follows: \cite{goodfellow2016deep} (you can add BibTeX citations in the \textit{bibliography.bib} file).
 
-\section{Risultati}
-\input{chap/risultati.tex}
 
-\section{Discussione}
-\input{chap/discussione.tex}
+\section{Results}
+% Here you will present your results (models \& configurations selected, performance achieved)
+\input{chap/results.tex}
 
-\section*{Riferimenti}
-[1] Nome Autore, Titolo, Pubblicazione, Anno.
+\section{Discussion}
+% Any relevant discussion goes here.
+\input{chap/discussions.tex}
+
+
+\bibliography{bibliography}
+\bibliographystyle{ieeetr}
 
 \end{document}
-

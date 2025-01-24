@@ -28,6 +28,10 @@ ambiente_virtuale/
 
 .*.lb
 
+*.bbl
+
+*.blg
+
 
 ## Build tool auxiliary files:
 
@@ -46,3 +50,4 @@ ambiente_virtuale/
 *.rubbercache
 
 rubber.cache
+

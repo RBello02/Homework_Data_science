@@ -24,15 +24,15 @@ from sklearn.pipeline import make_pipeline, Pipeline
 def main():
     
     # Defyning the model we want to test
-    model0 = Ridge()
-    model_name = 'Ridge'
-    model_details = {'model': Ridge(),
+    model0 = ElasticNet(alpha= 0.01, fit_intercept=True, l1_ratio=0.7, max_iter=1000, selection='cyclic')
+    model_name = 'ElasticNet'
+    model_details = {'model': ElasticNet(),
         'params': {
-            'alpha': [0.1, 1, 10, 100],  # Valori di regolarizzazione
-            'solver': ['auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg'],
-            'fit_intercept': [True,False],
-            'max_iter': [1000],
-            'random_state': [42]
+            'alpha': [0.001, 0.01, 0.1, 1],
+            'l1_ratio': [0.1, 0.5, 0.7, 1.0],  # 1.0 => Lasso, 0 => Ridge
+            'max_iter': [1000, 2000],
+            'selection': ['cyclic', 'random'],
+            'fit_intercept': [True,False]
         }
         }
     

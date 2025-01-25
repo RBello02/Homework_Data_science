@@ -2,7 +2,6 @@
 
 # come useful libraries for deature extractionP
 import numpy as np
-from collections import Counter
 from sklearn.preprocessing import OneHotEncoder
 import pandas as pd
 import librosa

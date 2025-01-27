@@ -1,0 +1,15 @@
+We choose 2 models for testing our regression. 
+\begin{itemize}
+    \item \textit{Ridge regression}\cite{Ridge}: is a particular linear regression where the objective function to minimize is defined as: 
+    \begin{equation}
+        \mathcal{L}(\mathbf{w})=\frac{1}{n}\sum_{i=1}^n\left(y_i - \mathbf{x}_i^\top\mathbf{w} \right) + \lambda\| \mathbf{w}\|_2^2
+    \end{equation}
+    Where \(y_i\) is the target variable, \(\mathbf{x}_i\) are the characteristics and \(\mathbf{w}\) are the coefficients of the regression. Instead of the classical linear regression, in this function there is a term (\(\lambda\|\mathbf{w}\|_2^2\)) that imposes a penalty proportional to the squared \(L_2\)
+    norm of the coefficients to encourage the reduction of their overall magnitude.
+    \item \textit{MLP regression}\cite{MLP}: this regression id based on a \textit{neural network} that uses the \textit{MSE} \eqref{MSE} (\textit{mean squared error}) as a \textit{loss function}, which is minimized using a stochastic gradient method and the \textit{backpropagation}.
+    \begin{equation} \label{MSE}
+        MSE = \frac{1}{n}\sum_{i=1}^n\left(y_i-\hat{y}_i\right)^2
+    \end{equation}
+    In this formula \(\hat{y}_i\) represents the prediction made by the neural network for the target variable \(y_i\).
+\end{itemize}
+For both classifiers, the best working configuration of hyperparameters has been identified through a grid search, as explained in the following sections.

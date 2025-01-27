@@ -11,7 +11,11 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{xcolor}
 
 
@@ -49,7 +53,6 @@ In this report we tried to solve a regression problem, the goal is to estimate t
 \subsection{Hyperparameter tuning}
 \input{chap/hypertuning.tex}
 
-You can use citations as follows: \cite{goodfellow2016deep} (you can add BibTeX citations in the \textit{bibliography.bib} file).
 
 
 \section{Results}
@@ -57,6 +60,14 @@ You can use citations as follows: \cite{goodfellow2016deep} (you can add BibTeX 
 \input{chap/results.tex}
 
 \section{Discussion}
+The proposed approach obtains results that
+outperform, even if not by much, the naive baseline defined. We have empirically shown that the selected regressors perform similarly for this specific task, achieving satisfactory results in terms of RMSE.
+ 
+However, we acknowledge that the results obtained from the regressors were not so accurate, this inefficiency arises from the fact that the target value is not well distributed, as shown in Figure \ref{hist_distributivi}. As a result, prediction for bigger values of age are not as precise as prediction for lower values of age, as shown by looking the residuals in Figures \ref{fig:res_Ridge} and \ref{fig:res_MLP}. It is highly likely that, using a dataset that is less imbalanced in the target variable, the results would be better. 
+
+An other idea for computing better results was splitting the dataset by the gender, in fact the voice is different for different genders. We tried to train two regressors, one for male and the other for female gender, however, the results were suboptimal. This type of strategy would have been successful if the dataset had been more complete.
+
+
 % Any relevant discussion goes here.
 \input{chap/discussions.tex}
 
